@@ -1,10 +1,14 @@
-const express = require ('express')
+const express = require ('express');
+const cors = require ('cors');
+const connectDB = require ('./db.js');
+const { login } = require ('./controllers/loginController.js');
+const { register } = require ('./controllers/registrationController.js');
+
 const app = express ()
 
-// Set up route for the API
-app.get ('/api', (req, res) => {
-    // What we want to send to the frontend. In the front end, we will fetch what is sent here
-    res.json ({ "users": ["user1", "user2", "user3"] })
-})
+app.use (express.json());
+app.use (cors ());
+
+app.post ('/login', register)
 
 app.listen (5000, () => { console.log ("Server started on port 5000") })
