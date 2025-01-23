@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'  
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import './LoginPage.css';
 
@@ -11,20 +12,31 @@ function Login () {
     })
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
+    const navigate = useNavigate ();
+
+    axios.defaults.withCredentials = true;    // this is for the cookie
 
     const handleLogin = (event) => {
       event.preventDefault ();    
+      setError ('');
       
       // Use the API to call the server side to handle the login
       // Use .post because we are posting data and pass them to the /login at the backend
-      axios.post ('http://localhost:5000/login', values)
-      .then (res => console.log (res))
+      axios.post ('http://localhost:3000/login', values)
+      .then (res => {
+        if (res.data.Status === "Success") {
+          setError ('');
+          navigate ('/booking');
+        } else {
+          setError (res.data.Error);
+        }
+      })
       .then (err => console.log (err))
     }
 
     const toggleShowPassword = () => {
-        setShowPassword(!showPassword);
-      };
+      setShowPassword(!showPassword);
+    };
     
     return (
         <div className="container">
@@ -35,7 +47,7 @@ function Login () {
           <label className="label">username</label>
           <input
             value={values.username}
-            onChange={e => setValues  ({...values, username: e.target.value})}    // we only update the name value
+            onChange= { e => setValues ({...values, username: e.target.value}) }    // we only update the name value
             className="input"
             placeholder="Enter your username"
             required
@@ -46,7 +58,7 @@ function Login () {
             <input
               type={showPassword ? "text" : "password"}
               value={values.password}
-              onChange={e => setValues  ({...values, password: e.target.value})}    // we only update the password value
+              onChange={ e => setValues ({...values, password: e.target.value}) }    // we only update the password value
               className="password-input"
               placeholder="Enter your password"
               required
@@ -69,4 +81,4 @@ function Login () {
     );
 };
 
-export default Login
+export default Login;

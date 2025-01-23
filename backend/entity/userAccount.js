@@ -21,7 +21,7 @@ const userAccount = {
             const query = 'SELECT * FROM useraccount WHERE username = ?';
             db.query (query, [username], (err, result) => {
                 if (err) {
-                    console.log ("error:", err);
+                    console.log ("Error:", err);
                     return reject (err);
                 }
 
