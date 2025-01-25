@@ -1,6 +1,6 @@
 const jwt = require ('jsonwebtoken');
 
-const verifyUser = (req, res, next) => {
+const verifyUser = async (req, res, next) => {
     const token = req.cookies.token;        // get the token from the cookie
 
     // If token doesn't exist, then return with a error message

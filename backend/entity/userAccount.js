@@ -18,7 +18,7 @@ const userAccount = {
     // Find user from their username
     findByUsername: async (username) => {
         return new Promise ((resolve, reject) => {
-            const query = 'SELECT * FROM useraccount WHERE username = ?';
+            const query = 'SELECT * FROM useraccount WHERE username = ? LIMIT 1';
             db.query (query, [username], (err, result) => {
                 if (err) {
                     console.log ("Error:", err);

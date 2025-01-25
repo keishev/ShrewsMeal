@@ -6,65 +6,114 @@ import dayjs from 'dayjs'
 
 import './BookingPage.css'
 
-register ();
+register ();    
 
 function Booking () {
-    const [auth, setAuth] = useState (false);
+    const [auth, setAuth] = useState (null);
     const [message, setMessage] = useState ('');
     const [username, setUsername] = useState ('');
-    const [curDate, setCurDate] = useState ('');
-    const [curDbDate, setCurDbDate] = useState ('');
-    const [nextDate, setNextDate] = useState ('');
-    const [nextDbDate, setNextDbDate] = useState ('');
+    const [loading, setLoading] = useState (true);
+
+    const [selectedMeals, setSelectedMeals] = useState ([
+        { breakfast: false, lunch: false, dinner: false },
+        { breakfast: false, lunch: false, dinner: false}
+    ]);
+
+    const [dates, setDates] = useState ([
+        { displayDate: '', dbDate: '' },
+        { displayDate: '', dbDate: ''}
+    ]);
 
     const navigate = useNavigate ();
 
-    // Check if the user is authorized or not by checking the cookie / token
-    useEffect (() => {
-        axios.get ('http://localhost:3000/login', {withCredentials: true})
-        .then (res => {
-            console.log (res.data.Status);
-            if (res.data.Status === "Success") {
-                setAuth (true);
-                setUsername (res.data.username);
-            } else {
-                setAuth (false);
-                setMessage (res.data.Error);
+    useEffect(() => {
+        const today = dayjs ();
+
+        setDates (prevDates => {
+            const formatDate = (date) => ({
+                displayDate: date.format ('DD MMMM YYYY'),
+                dbDate: date.format ('YYYY-MM-DD')
+            })
+
+            const updatedDates = prevDates.map ((_, index) => 
+                formatDate (today.add (index, 'day'))
+            );
+
+            return updatedDates;
+        });
+
+        const fetchLogin = async () => {
+            try {
+                const res = await axios.get('http://localhost:3000/login', { withCredentials: true });
+                if (res.data.Status === "Success") {
+                    setAuth(true);
+                    setUsername(res.data.username);
+                } else {
+                    setAuth(false);
+                    setMessage(res.data.Error);
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading (false);
             }
-        })
-        .catch (err => console.log (err));
+        };
 
-        const today = dayjs();
-        setCurDate (today.format ('DD MMMM YYYY'));      // user friendly format
-        setCurDbDate (today.format ('YYYY-MM-DD'));      // database format
-
-        const nextDay = today.add(1, "day");
-        setNextDate (nextDay.format ('DD MMMM YYYY'));
-        setNextDbDate (nextDay.format ('YYYY-MM-DD'));
-
+        fetchLogin();
     }, [])
 
-    const handleBooking = (event) => {
+    const handleBooking = async (event) => {
         event.preventDefault ();
 
+        await axios.post ('http://localhost:3000/booking', {})  
     }
+
+    // The logic where the selecting and unselecting of meals button work
+    const toggleMeal = (slideIndex, meal) => {
+        setSelectedMeals ((prev) => 
+            prev.map ((slide, index) => 
+                index === slideIndex        // If current index matches the slideIndex, then it is the slide you want to update
+                    ? {...slide, [meal] : !slide[meal] }       // Here is where the values are modified
+                : slide ));                 // Otherwise, leave that slide as it is
+    };
 
     return (
         <div className = "container">
-            {
-                auth ?
+        {
+            loading ? (
+                <p>Loading...</p>
+            ) : auth ?
                 <div> 
-                    <h6>Hello, {username}</h6>
-                    <form onSubmit={handleBooking} className="form">
+                    <h5 className="welcome-msg">Welcome, {username}</h5>
                         <h1 className="heading">MAKE YOUR <br /> BOOKING FOR</h1>
                         
                         <swiper-container>
+                            { [0, 1].map ((slideIndex) => (
+                                <swiper-slide key={slideIndex}>
+                                    <h6 className='date'>{dates[slideIndex].displayDate}</h6>
+                                    <div className='meal-selection-container'>
+                                        {['breakfast', 'lunch', 'dinner'].map ((meal) => (
+                                            <button
+                                                key={ meal }
+                                                className={`meals-button ${selectedMeals[slideIndex][meal] ? 'selected' : ''}`}
+                                                onClick={() => toggleMeal (slideIndex, meal)}
+                                            >
+                                                {meal.toUpperCase ()}
+                                            </button>
+                                        ))}
+                                        <button className='meals-button submit-button' onClick={() => console.log (`Selected meals:`, selectedMeals[slideIndex])}>SUBMIT</button>
+                                    </div>
+                                </swiper-slide>
+                            ))}
+                        </swiper-container>
+
+                        {/* <swiper-container>
                             <swiper-slide>
                                 <h6 className='date'>{curDate}</h6>
                                 <div className='meal-selection-container'>
-                                    <button className='meals-button'>BREAKFAST</button>
-                                    <button className='meals-button'>LUNCH</button>
-                                    <button className='meals-button'>DINNER</button>
+                                    <button className='meals-button' onClick={selectBreakfast}>BREAKFAST</button>
+                                    <button className='meals-button' onClick={selectLunch}>LUNCH</button>
+                                    <button className='meals-button' onClick={selectDinner}>DINNER</button>
                                     <button className='meals-button submit-button'>SUBMIT</button>
                                 </div>
                             </swiper-slide>
@@ -77,13 +126,7 @@ function Booking () {
                                     <button className='meals-button submit-button'>SUBMIT</button>
                                 </div>
                             </swiper-slide>
-                        </swiper-container>
-
-                        <div className='howToBook-container'>
-                            <button className='howToBook-button'>HOW TO BOOK?</button>
-                        </div>
-                    </form>
-
+                        </swiper-container> */}
                     <nav className='navbar'>
                         <div>
                         </div>

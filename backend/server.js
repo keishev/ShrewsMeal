@@ -19,8 +19,6 @@ app.use (cors ({
 
 app.use (cookieParser ());
 
-
-
 // Check whether the user is an authenticated user
 app.get ('/login', verifyUser, (req, res) => {
     return res.json ({ Status: "Success", username: req.username });

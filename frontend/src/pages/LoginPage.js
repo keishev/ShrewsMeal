@@ -16,13 +16,13 @@ function Login () {
 
     axios.defaults.withCredentials = true;    // this is for the cookie
 
-    const handleLogin = (event) => {
+    const handleLogin = async (event) => {
       event.preventDefault ();    
       setError ('');
       
       // Use the API to call the server side to handle the login
       // Use .post because we are posting data and pass them to the /login at the backend
-      axios.post ('http://localhost:3000/login', values)
+      await axios.post ('http://localhost:3000/login', values)
       .then (res => {
         if (res.data.Status === "Success") {
           setError ('');
@@ -31,7 +31,8 @@ function Login () {
           setError (res.data.Error);
         }
       })
-      .then (err => console.log (err))
+      .catch (err => console.log (err))
+
     }
 
     const toggleShowPassword = () => {

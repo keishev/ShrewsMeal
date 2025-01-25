@@ -102,3 +102,17 @@ swiper-container {
     background-color: black;
     
 }
+
+.welcome-msg {
+    margin-bottom: 0rem;
+}
+
+.heading {
+    margin-top: 1rem;
+}
+
+.meals-button.selected {
+    background-color: #7685DE;
+    color: white;
+    border: 1.5px solid #7685DE;
+}
