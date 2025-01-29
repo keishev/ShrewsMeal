@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { register } from 'swiper/element/bundle'
 import axios from 'axios'
 import dayjs from 'dayjs'
+import moment from 'moment'
 import Swal from 'sweetalert2'
 
 import './BookingPage.css'
@@ -26,7 +27,7 @@ function Booking () {
     ]);
 
     const [isBooked, setIsBooked] = useState ([
-        null, null
+        false, false
     ]);
 
     useEffect(() => {
@@ -65,8 +66,8 @@ function Booking () {
         };
 
         const run = async () => {
-            fetchLogin ();
-            checkBooking (username);   
+            await fetchLogin ();
+            await checkBooking (username);   
         }
         run ();
     }, [username]);
@@ -97,6 +98,7 @@ function Booking () {
                 .then (res => {
                     if (res.data.Status === "Success") {
                         Swal.fire ('Booking confirmed!', `Your booking for ${selectedDate} has been saved.`, 'success');
+                        setIsBooked ((prev) => slideIndex === 0 ? [true, ...prev.slice(1)] : [...prev.slice(0, slideIndex), true])
                         console.log ('Booking saved:', res.data);
                     }
                 })
@@ -127,23 +129,32 @@ function Booking () {
                     username: username
                 }
             });
-            setBookedDays (response.data);
+            await setBookedDays (response.data);
+            console.log (dates);
         } catch (error) {
             console.log ('Error checking booking:', error);
         }
     };
 
     const setBookedDays = async (datesArr) => {
-        const formattedDate = new Date(datesArr[0]);
-
-
         if (datesArr.length === 0) {
             setIsBooked ([false, false]);
-        } else if (datesArr.length > 1) {
+            return;
+        }
+
+        const formattedDate = await moment (datesArr[0]).format("YYYY-MM-DD");
+        
+        if (datesArr.length > 1) {
+            console.log('formatted2', formattedDate);
+            console.log('datesdb2', dates[0].dbDate);
             setIsBooked ([true, true]);
         } else if (formattedDate === dates[0].dbDate) {
+            console.log('formatted3', formattedDate);
+            console.log('datesdb3', dates[0].dbDate);
             setIsBooked ([true, false]);
-        } else {
+        } else if (formattedDate === dates[1].dbDate) {
+            console.log('formatted4', formattedDate);
+            console.log('datesdb4', dates[0].dbDate);
             setIsBooked ([false, true]);
         }
     }
@@ -153,7 +164,7 @@ function Booking () {
         {
             loading ? (
                 <p>Loading...</p>
-            ) : auth ?
+            ) : auth && (isBooked !== null) ?
                 <div> 
                     <h5 className="welcome-msg">Welcome, {username}</h5>
                         <h1 className="heading">MAKE YOUR <br /> BOOKING FOR</h1>
