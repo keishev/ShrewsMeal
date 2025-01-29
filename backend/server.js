@@ -1,11 +1,10 @@
 const express = require ('express');
 const cors = require ('cors');
 const cookieParser = require('cookie-parser')
-const connectDB = require ('./db.js');
 
 const { login } = require ('./controllers/loginController.js');
 const { register } = require ('./controllers/registrationController.js');
-const { booking }  = require ('./controllers/bookingController.js');
+const { createBooking, checkBooking }  = require ('./controllers/bookingController.js');
 const { verifyUser } = require ('./middleware/authMiddleware.js');
 
 const app = express ()
@@ -26,6 +25,7 @@ app.get ('/login', verifyUser, (req, res) => {
 
 app.post ('/login', login);
 app.post ('/register', register);
-app.post ('/booking', booking);
+app.post ('/booking', createBooking);
+app.get ('/booking/check', checkBooking);
 
 app.listen (5000, () => { console.log ("Server started on port 5000") })

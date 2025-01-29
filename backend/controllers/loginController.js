@@ -17,7 +17,7 @@ exports.login = async (req, res) => {
                 // Generate a token with our username and role, then store it inside a cookie
                 const username = user.username;
                 const role = user.role;
-                const token = jwt.sign ({ username, role }, "this-is-the-secret-key", { expiresIn: '1m' });
+                const token = jwt.sign ({ username, role }, "this-is-the-secret-key", { expiresIn: '1h' });
                 res.cookie ('token', token);
                 return res.json ({ Status: "Success" });
             } else {

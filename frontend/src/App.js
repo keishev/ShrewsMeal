@@ -5,8 +5,6 @@ import Register from './pages/RegisterPage.js'
 import Booking from './pages/BookingPage.js'
 
 function App () {
-  const [backendData, setBackendData] = useState ([{}])
-
   return (
     <BrowserRouter>
       <Routes>

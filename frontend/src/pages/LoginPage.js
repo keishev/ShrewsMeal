@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'  
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 import './LoginPage.css';
@@ -31,8 +31,7 @@ function Login () {
           setError (res.data.Error);
         }
       })
-      .catch (err => console.log (err))
-
+      .catch (err => console.log (err));
     }
 
     const toggleShowPassword = () => {

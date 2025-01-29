@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { register } from 'swiper/element/bundle';
+import { Link } from 'react-router-dom'
+import { register } from 'swiper/element/bundle'
 import axios from 'axios'
 import dayjs from 'dayjs'
+import Swal from 'sweetalert2'
 
 import './BookingPage.css'
 
@@ -24,7 +25,9 @@ function Booking () {
         { displayDate: '', dbDate: ''}
     ]);
 
-    const navigate = useNavigate ();
+    const [isBooked, setIsBooked] = useState ([
+        null, null
+    ]);
 
     useEffect(() => {
         const today = dayjs ();
@@ -48,6 +51,8 @@ function Booking () {
                 if (res.data.Status === "Success") {
                     setAuth(true);
                     setUsername(res.data.username);
+                    console.log ("res.data.user", res.data.username);
+                    console.log ('username00:', username);
                 } else {
                     setAuth(false);
                     setMessage(res.data.Error);
@@ -59,14 +64,52 @@ function Booking () {
             }
         };
 
-        fetchLogin();
-    }, [])
+        const run = async () => {
+            fetchLogin ();
+            checkBooking (username);   
+        }
+        run ();
+    }, [username]);
 
-    const handleBooking = async (event) => {
-        event.preventDefault ();
+    const handleBooking = async (slideIndex) => {
+        const selectedDate = dates [slideIndex]?.displayDate || 'Loading';
 
-        await axios.post ('http://localhost:3000/booking', {})  
-    }
+        Swal.fire ({
+            title: 'Confirm your booking?',
+            showCancelButton:true,
+            confirmButtonText: 'Confirm',
+            customClass: {
+                actions: 'my-action',
+                cancelButton: 'order-1 right-gap',
+                confirm: 'order-2'
+            }
+        }).then ((result) => {
+            if (result.isConfirmed) {
+                const bookingData = {
+                    username: username,
+                    meals: selectedMeals[slideIndex],
+                    date: dates[slideIndex].dbDate
+                }
+        
+                axios.post ('http://localhost:3000/booking', bookingData, {
+                    withCredentials: true
+                })
+                .then (res => {
+                    if (res.data.Status === "Success") {
+                        Swal.fire ('Booking confirmed!', `Your booking for ${selectedDate} has been saved.`, 'success');
+                        console.log ('Booking saved:', res.data);
+                    }
+                })
+                .catch (err => { 
+                    Swal.fire ('Booking failed', 'Please try again', 'error');
+                    console.error ('Booking error:', err);
+                });
+
+            } else if (result.isDenied) {
+                Swal.fire ('Booking was cancelled', `No booking was made for ${selectedDate}.`, 'info')
+            }
+        });
+    };         
 
     // The logic where the selecting and unselecting of meals button work
     const toggleMeal = (slideIndex, meal) => {
@@ -76,6 +119,34 @@ function Booking () {
                     ? {...slide, [meal] : !slide[meal] }       // Here is where the values are modified
                 : slide ));                 // Otherwise, leave that slide as it is
     };
+
+    const checkBooking = async (username) => {
+        try {
+            const response = await axios.get (`http://localhost:3000/booking/check`, {
+                params: {
+                    username: username
+                }
+            });
+            setBookedDays (response.data);
+        } catch (error) {
+            console.log ('Error checking booking:', error);
+        }
+    };
+
+    const setBookedDays = async (datesArr) => {
+        const formattedDate = new Date(datesArr[0]);
+
+
+        if (datesArr.length === 0) {
+            setIsBooked ([false, false]);
+        } else if (datesArr.length > 1) {
+            setIsBooked ([true, true]);
+        } else if (formattedDate === dates[0].dbDate) {
+            setIsBooked ([true, false]);
+        } else {
+            setIsBooked ([false, true]);
+        }
+    }
 
     return (
         <div className = "container">
@@ -97,36 +168,19 @@ function Booking () {
                                                 key={ meal }
                                                 className={`meals-button ${selectedMeals[slideIndex][meal] ? 'selected' : ''}`}
                                                 onClick={() => toggleMeal (slideIndex, meal)}
+                                                disabled={isBooked[slideIndex]}
                                             >
                                                 {meal.toUpperCase ()}
                                             </button>
                                         ))}
-                                        <button className='meals-button submit-button' onClick={() => console.log (`Selected meals:`, selectedMeals[slideIndex])}>SUBMIT</button>
+                                        <button className='meals-button submit-button' onClick={ () => handleBooking (slideIndex) }>
+                                            {isBooked[slideIndex] ? 'MODIFY' : 'SUBMIT'}
+                                        </button>
                                     </div>
                                 </swiper-slide>
                             ))}
                         </swiper-container>
 
-                        {/* <swiper-container>
-                            <swiper-slide>
-                                <h6 className='date'>{curDate}</h6>
-                                <div className='meal-selection-container'>
-                                    <button className='meals-button' onClick={selectBreakfast}>BREAKFAST</button>
-                                    <button className='meals-button' onClick={selectLunch}>LUNCH</button>
-                                    <button className='meals-button' onClick={selectDinner}>DINNER</button>
-                                    <button className='meals-button submit-button'>SUBMIT</button>
-                                </div>
-                            </swiper-slide>
-                            <swiper-slide>
-                                <h6 className='date'>{nextDate}</h6>
-                                <div className='meal-selection-container'>
-                                    <button className='meals-button'>BREAKFAST</button>
-                                    <button className='meals-button'>LUNCH</button>
-                                    <button className='meals-button'>DINNER</button>
-                                    <button className='meals-button submit-button'>SUBMIT</button>
-                                </div>
-                            </swiper-slide>
-                        </swiper-container> */}
                     <nav className='navbar'>
                         <div>
                         </div>
