@@ -52,8 +52,6 @@ function Booking () {
                 if (res.data.Status === "Success") {
                     setAuth(true);
                     setUsername(res.data.username);
-                    console.log ("res.data.user", res.data.username);
-                    console.log ('username00:', username);
                 } else {
                     setAuth(false);
                     setMessage(res.data.Error);
@@ -68,9 +66,41 @@ function Booking () {
         const run = async () => {
             await fetchLogin ();
             await checkBooking (username);   
-        }
+        };
+
         run ();
     }, [username]);
+
+    const setBookedMeals = async (username, date) => {
+        try {
+            const res = await axios.get (`http://localhost:3000/booking/setMeals`, {
+                params: {
+                    username: username,
+                    date: date
+                }
+            });
+
+            const index = (date === dates[0].dbDate ? 0 : 1);
+
+            setSelectedMeals (prevMeals => {
+                const updatedMeals = [...prevMeals]; // Create a new copy of the array
+                updatedMeals[index] = {  // Replace the entire object at the given index
+                    breakfast: res.data.breakfast,
+                    lunch: res.data.lunch,
+                    dinner: res.data.dinner
+                };
+
+                return updatedMeals;
+            });
+            
+        } catch (error) {
+            console.log ('Error:', error);
+        }
+    };
+
+    const handleModify = async (slideIndex) => {
+        setIsBooked ((prev) => slideIndex === 0 ? [false, ...prev.slice (1)] : [...prev.slice (0, slideIndex), false]);
+    };
 
     const handleBooking = async (slideIndex) => {
         const selectedDate = dates [slideIndex]?.displayDate || 'Loading';
@@ -130,7 +160,6 @@ function Booking () {
                 }
             });
             await setBookedDays (response.data);
-            console.log (dates);
         } catch (error) {
             console.log ('Error checking booking:', error);
         }
@@ -145,18 +174,15 @@ function Booking () {
         const formattedDate = await moment (datesArr[0]).format("YYYY-MM-DD");
         
         if (datesArr.length > 1) {
-            console.log('formatted2', formattedDate);
-            console.log('datesdb2', dates[0].dbDate);
             setIsBooked ([true, true]);
         } else if (formattedDate === dates[0].dbDate) {
-            console.log('formatted3', formattedDate);
-            console.log('datesdb3', dates[0].dbDate);
             setIsBooked ([true, false]);
         } else if (formattedDate === dates[1].dbDate) {
-            console.log('formatted4', formattedDate);
-            console.log('datesdb4', dates[0].dbDate);
             setIsBooked ([false, true]);
         }
+
+        await setBookedMeals (username, dates[0].dbDate);
+        await setBookedMeals (username, dates[1].dbDate);
     }
 
     return (
@@ -184,7 +210,14 @@ function Booking () {
                                                 {meal.toUpperCase ()}
                                             </button>
                                         ))}
-                                        <button className='meals-button submit-button' onClick={ () => handleBooking (slideIndex) }>
+                                        <button className='meals-button submit-button' 
+                                            onClick={ () => {
+                                                if (isBooked[slideIndex]) {
+                                                    handleModify (slideIndex);
+                                                } else {
+                                                    handleBooking (slideIndex)} 
+                                                }
+                                        }>
                                             {isBooked[slideIndex] ? 'MODIFY' : 'SUBMIT'}
                                         </button>
                                     </div>

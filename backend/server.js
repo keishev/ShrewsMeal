@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser')
 
 const { login } = require ('./controllers/loginController.js');
 const { register } = require ('./controllers/registrationController.js');
-const { createBooking, checkBooking }  = require ('./controllers/bookingController.js');
+const { createBooking, checkBooking, setSelectedMeals }  = require ('./controllers/bookingController.js');
 const { verifyUser } = require ('./middleware/authMiddleware.js');
 
 const app = express ()
@@ -27,5 +27,6 @@ app.post ('/login', login);
 app.post ('/register', register);
 app.post ('/booking', createBooking);
 app.get ('/booking/check', checkBooking);
+app.get ('/booking/setMeals', setSelectedMeals);
 
 app.listen (5000, () => { console.log ("Server started on port 5000") })

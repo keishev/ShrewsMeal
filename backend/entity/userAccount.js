@@ -41,6 +41,7 @@ const userAccount = {
             db.query (query, [username], (err, result) => {
                 if (err) {
                     console.log ("Error:", err);
+                    return reject (err);
                 }
 
                 if (result.length === 0) {

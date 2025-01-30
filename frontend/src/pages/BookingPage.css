@@ -116,3 +116,14 @@ swiper-container {
     color: white;
     border: 1.5px solid #7685DE;
 }
+
+.meals-button:disabled.selected {
+    background-color: #7685DE;
+    color: white;
+    border: 1.5px solid #7685DE;
+    opacity: 0.6;
+}
+
+.meals-button:disabled {
+    cursor: not-allowed;
+}
