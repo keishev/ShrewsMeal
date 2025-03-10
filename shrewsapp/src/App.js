@@ -1,3 +1,5 @@
+// type npm ci to rebuild the node modules if using different machine since node_modules are not committed
+
 import logo from './logo.svg';
 import './App.css';
 
