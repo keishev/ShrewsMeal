@@ -1,0 +1,163 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: "Manrope", serif;
+    font-weight: 500;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height:100vh;
+  }
+  
+  .user-pass-container {
+    display: inline-block;
+    justify-content: center;
+  }
+  
+  .heading {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-family: 'Luckiest Guy', serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .label {
+    display: block;
+    font-size: 1rem;
+  }
+  
+  .dropdown-container {
+    display:inline-block;
+    width: 100%;
+    /* border: 1px solid blue; */
+  }
+  
+  .dropdown-input {
+    display: block;
+    width: 100%;
+    padding: 0.35rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 3rem;
+  }
+  
+  .button {
+    display: block;
+    width: 50%;
+    height: 2rem;
+    padding: 0.25rem;
+    border-radius: 20px;
+    margin-top: 3rem;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 700;
+    border: none;
+  }
+  
+  .button:hover {
+    opacity: 0.8;
+  }
+  
+  .button:active {
+    transform: scale (0.7);
+  }
+  
+  input {
+    display: flex;
+    width: 100%;
+    font-size: 0.75rem;
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid black;
+  }
+  
+  /* .password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 1rem;
+    padding-right: 2rem;
+    border: 1px solid black;
+    border-radius: 20px;
+  }
+  
+  .password-input {
+    flex: 1;
+    padding-right: 2rem;
+    border: none;
+    padding-right: 0.5rem;
+    border-radius: 20px;
+  } */
+  
+  .password-container {
+    display: flex;
+    position: relative;
+    width: 100%;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .password-input {
+    width: 100%;
+    font-size: 0.75rem;
+    box-sizing: border-box;
+    border-radius: 20px;
+    padding: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 2rem; /* Add space for the icon */
+    border: 1px solid black;
+    color: #333;
+    background-color: transparent; /* Ensure background is transparent */
+  }
+  
+  .icon {
+    position: absolute;
+    right: 10px; /* Adjust the icon's position */
+    top: 50%;
+    transform: translateY(-50%); /* Vertically center the icon */
+    cursor: pointer;
+    color: #aaa;
+    font-size: 20px;
+  }
+  
+  
+  select {
+    border-radius: 20px;
+    padding: 0.35rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 15px;
+  }
+  
+  option {
+    border: 1px solid black;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .error {
+    margin-bottom: 0.25rem;
+    color: red;
+    font-size: 13px;
+  }
+  
