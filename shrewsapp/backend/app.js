@@ -1,10 +1,18 @@
-const dotenv = require("dotenv");
-const app = require("./app"); 
+const express = require("express");
+const cors = require("cors");
+const app = express();
 
-dotenv.config({ path: "../.env" });
+const loginRoutes = require ('./routes/loginRoutes');
 
-const PORT = process.env.SERVER_PORT || 5000;
+app.use(
+    cors({
+        origin: 'http://localhost:3000',  // Set specific frontend URL, not '*'
+        credentials: true,       // Allow cookies and authentication headers
+    })
+);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+app.use (express.json());
+
+app.use ("/api", loginRoutes);
+
+module.exports = app;

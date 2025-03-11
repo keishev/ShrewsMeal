@@ -1,12 +1,10 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
+const dotenv = require("dotenv");
+const app = require("./app.js"); 
 
-const app = express();
+dotenv.config({ path: "D:/ProgrammingProjects/ShrewsMeal/ShrewsMeal/shrewsapp/.env" });
 
-app.use(bodyParser.json()); 
-app.use(cors());
+const PORT = process.env.SERVER_PORT || 5000;
 
-// app.use("/api", loginRoutes);
-
-module.exports = app
+app.listen (PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
