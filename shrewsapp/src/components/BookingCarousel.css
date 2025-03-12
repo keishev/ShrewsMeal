@@ -1,0 +1,79 @@
+.carousel-container {
+    max-width: 600px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+.meal-slider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+}
+
+.meal-selection-container {
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 35vh;
+    border-radius: 15px;
+    background-color: #D9D9D9;
+    padding-top: 2rem;
+    padding-bottom: 0rem;
+}
+
+.meals-button {
+    width: 80%;
+    height: 12.5%;
+    margin-bottom: 2rem;
+    background-color: white;
+    border: 1.5px solid black;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.meals-button:hover {
+    background-color: #E3E3E3;
+    cursor: pointer;
+}
+
+.submit-button {
+    width: 60%;
+    margin-bottom: 0rem;
+    background-color: black;
+    color: white;
+    border: 1.5px solid black;
+}
+
+.submit-button:hover {
+    background-color: #707070;
+    color: white;
+    border: 1.5px solid #707070;
+}
+
+.meals-button.selected {
+    background-color: #7685DE;
+    color: white;
+    border: 1.5px solid #7685DE;
+}
+
+.meals-button:disabled.selected {
+    background-color: #7685DE;
+    color: white;
+    border: 1.5px solid #7685DE;
+    opacity: 0.6;
+}
+
+.meals-button:disabled {
+    cursor: not-allowed;
+}
+
+.date {
+    font-family: 'Itim';
+    font-size: 1rem;
+    font-weight: 200;
+    margin-top: 0rem;
+    margin-bottom: 1rem;
+}

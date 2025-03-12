@@ -4,9 +4,6 @@ const { verifyUser } = require ('../middleware/authMiddleware.js')
 
 const router = express.Router();
 
-router.post('/login', login);
-router.get ('/login', verifyUser, (req, res) => {
-    return res.json ({ Status: "Success", username: req.username });
-})
+// router.post ('/booking', createBooking)
 
-module.exports = router;
+module.exports = router

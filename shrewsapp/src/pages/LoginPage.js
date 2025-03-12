@@ -27,10 +27,9 @@ const LoginPage = () => {
         try {
             const res = await userLogin (values)
 
-            if (res.data.Status === "Success") {
+            if (res.Status === "Success") {
                 setError ('');
-                alert ('login success')
-                // navigate ('/booking')
+                navigate ('/booking')
             } else {
                 setError (res.data.Error)
             }

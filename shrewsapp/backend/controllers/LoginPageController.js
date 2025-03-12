@@ -7,7 +7,6 @@ dotenv.config ({ path: "../.env" });
 const { findByUsername }  = require ('../entity/user')
 
 exports.login = async (req, res) => {
-    console.log ("inside controller");
     const { username, password } = req.body;
     try {
         const user = await findByUsername (username);
