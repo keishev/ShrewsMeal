@@ -14,7 +14,7 @@ export const checkAuthenticated = async () => {
 
 export const createBooking = async (bookingData) => {
     try {
-        const response = axios.post (`${BASE_URL}/booking`, bookingData, { withCredentials: true });
+        const response = await axios.post (`${BASE_URL}/booking`, bookingData, { withCredentials: true });
         return response.data;
     } catch (error) {
         console.error ("Error in sending booking request:", error);
@@ -24,13 +24,14 @@ export const createBooking = async (bookingData) => {
 
 export const getAndSetBookedMeals = async (username, date) => {
     try {
+        console.log ('date in api:', date);
         const response = await axios.get (`${BASE_URL}/booking/getSetMeals`, {
             params: {
                 username: username,
                 date: date
             }
         });
-        console.log ("GetAndSetBookedMeals response.data:", response.data);
+        console.log ("getandsetbookedmeals api:", response.data);
         return response.data;
     } catch (error) {
         console.error ("Error in fetching selected meals:", error);
@@ -40,7 +41,10 @@ export const getAndSetBookedMeals = async (username, date) => {
 
 export const checkBookedDays = async (username) => {
     try {
-        const response = await axios.get (`${BASE_URL}/booking/check`, username)
+        console.log ('inside checkedBookedDays');
+        const response = await axios.get (`${BASE_URL}/booking/check`, {
+            params: { username }
+        });
         console.log ("CheckedBookedDays response.data:", response.data);
         return response.data;
     } catch (error) {

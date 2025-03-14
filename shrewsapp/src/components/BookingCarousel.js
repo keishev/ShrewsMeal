@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Slider from 'react-slick';
-import { useNavigate } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel'
-import $ from 'jquery';
 
 import './BookingCarousel.css'
-// import '../pages/BookingPage.css'
 
 const MealSelectionSlider = ({ dates, selectedMeals, isBooked, toggleMeal, handleModify, handleBooking }) => {
   const settings = {
