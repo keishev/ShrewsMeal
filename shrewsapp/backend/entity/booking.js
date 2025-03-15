@@ -4,9 +4,20 @@ exports.createBooking = async (userID, bookingDate, breakfast, lunch, dinner) =>
     try {
         const query = 'INSERT INTO booking (userID, bookingDate, breakfast, lunch, dinner) VALUES (?, ?, ?, ?, ?)';
         const values = [userID, bookingDate, breakfast, lunch, dinner];
+        const [result] = await db.execute (query, values);
+        return result;
+    } catch (error) {
+        console.error ("Error making a booking:", error);
+        throw error;
+    }
+};
 
-            const [result] = await db.execute (query, values);
-            return result;
+exports.modifyBooking = async (userID, bookingDate, breakfast, lunch, dinner) => {
+    try {
+        const query = `UPDATE booking SET breakfast = ?, lunch = ?, dinner = ? WHERE userID = ? AND bookingDate = ?`
+        const values = [breakfast, lunch, dinner, userID, bookingDate];
+        const [result] = await db.execute (query, values);
+        return result;
     } catch (error) {
         console.error ("Error making a booking:", error);
         throw error;
@@ -18,7 +29,6 @@ exports.getBookedDates = async (userID) => {
         const query = 'SELECT * FROM booking WHERE userID = ?';
         const [result] = await db.execute (query, [userID]);
         const bookingDates = result.map (record => record.bookingDate);
-        console.log ('bookedDates:', bookingDates);
         return bookingDates;
     } catch (error) {
         console.log ("Error fetching booked dates:", error)

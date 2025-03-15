@@ -9,7 +9,7 @@ import './BookingPage.css'
 import '../components/BookingCarousel.js'
 import MealSelectionSlider from '../components/BookingCarousel.js'
 
-import { checkAuthenticated, createBooking, getAndSetBookedMeals, checkBookedDays } from '../api/booking.js'
+import { checkAuthenticated, createBooking, modifyBooking, getAndSetBookedMeals, checkBookedDays } from '../api/booking.js'
 
 register ();    
 
@@ -29,9 +29,9 @@ const BookingPage = () => {
         { displayDate: '', dbDate: ''}
     ]);
 
-    const [isBooked, setIsBooked] = useState ([
-        false, false
-    ]);
+    const [isBooked, setIsBooked] = useState ([false, false]);
+    const [isModifying, setIsModifying] = useState([false, false]); // Tracks modification status
+
 
     useEffect(() => {
         const today = dayjs();
@@ -68,15 +68,23 @@ const BookingPage = () => {
 
     const handleModify = async (slideIndex) => {
         setIsBooked ((prev) => slideIndex === 0 ? [false, ...prev.slice (1)] : [...prev.slice (0, slideIndex), false]);
+        setIsModifying ((prev) => slideIndex === 0 ? [true, ...prev.slice (1)] : [...prev.slice (0, slideIndex), true]);
     };
 
     const handleBooking = async (slideIndex) => {
         const selectedDate = dates[slideIndex]?.displayDate || 'Loading';
     
+        // Check if it's a new booking or a modification
+        const isUpdating = isModifying[slideIndex];
+
         const result = await Swal.fire({
-            title: 'Confirm your booking?',
+            title: isUpdating ? 'Modify Your Booking?' : 'Confirm your booking?',
+            text: isUpdating 
+                ? `You are modifying your booking for ${selectedDate}. Are you sure?`
+                : `Do you want to confirm your booking for ${selectedDate}?`,
             showCancelButton: true,
-            confirmButtonText: 'Confirm',
+            confirmButtonText: isUpdating ? 'Modify' : 'Confirm',
+            width: '75%',
             customClass: {
                 actions: 'my-action',
                 cancelButton: 'order-1 right-gap',
@@ -92,19 +100,25 @@ const BookingPage = () => {
             };
     
             try {
-                const res = await createBooking (bookingData);
+                const res = isUpdating
+                    ? await modifyBooking (bookingData)
+                    : await createBooking (bookingData);
                 if (res.Status === "Success") {
                     await Swal.fire(
-                        'Booking confirmed!',
-                        `Your booking for ${selectedDate} has been saved.`,
+                        isUpdating ? 'Booking modified!' : 'Booking confirmed!',
+                        `Your booking for ${selectedDate} has been ${isUpdating ? 'updated' : 'saved'}`,
                         'success'
                     );
+
                     setIsBooked((prev) =>
                         slideIndex === 0
                             ? [true, ...prev.slice(1)]
                             : [...prev.slice(0, slideIndex), true]
                     );
-                    console.log('Booking saved:', res);
+
+                    setIsModifying(prev =>
+                        slideIndex === 0 ? [false, prev[1]] : [prev[0], false]
+                    );
                 }
             } catch (err) {
                 await Swal.fire('Booking failed', 'Please try again', 'error');
@@ -140,16 +154,13 @@ const BookingPage = () => {
     };
 
     const setBookedDays = async (username, datesArr) => {
-        console.log ("setbookeddays username:", username + datesArr);
         if (datesArr.length === 0) {
             setIsBooked ([false, false]);
             return;
         }
 
-        const formattedDate = await moment.utc (datesArr[0]).format("YYYY-MM-DD");
-        console.log ('formatted:', formattedDate);
-        console.log ('datesarr', datesArr[0]);
-        console.log ('dates', dates[0].dbDate);
+        // If the dates are weird, try to add .utc after moment
+        const formattedDate = await moment (datesArr[0]).format("YYYY-MM-DD");
         
         if (datesArr.length > 1) {
             setIsBooked ([true, true]);
@@ -158,7 +169,6 @@ const BookingPage = () => {
         } else if (formattedDate === dates[1].dbDate) {
             setIsBooked ([false, true]);
         }
-        console.log ('dbdate:', dates[0].dbDate);
 
         await setBookedMeals (username, dates[0].dbDate);
         await setBookedMeals (username, dates[1].dbDate);

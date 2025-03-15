@@ -2,6 +2,22 @@
     box-sizing: border-box;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-y: auto;   /* Allow vertical scrolling only when needed */
+}
+
+/* Ensure React root container takes full width & height */
+#root, .container {
+    width: 100vw;  /* 100% of viewport width */
+    height: 100vh; /* 100% of viewport height */
+    overflow-x: hidden;
+}
+
 body {
     font-family: "Manrope", serif;
     font-weight: 500;
@@ -20,7 +36,8 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    height: 100vh;
+    height: 75vh;
+    width: 100%;
     /* border: 1px solid black; */
     padding-bottom: 0rem;
 }
