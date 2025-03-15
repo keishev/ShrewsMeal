@@ -8,7 +8,7 @@ exports.createUser = async (user) => {
 
         const values = [user.first_name, user.last_name, user.username, user.userPassword, user.role, user.unitNumber, user.dietaryRestrictions];
 
-        const [results] = await db.execute(query, values);
+        const [result] = await db.execute(query, values);
         return result;
     } catch (error) {
         console.error("Error creating user:", error);
@@ -31,7 +31,7 @@ exports.getIdByUsername = async (username) => {
     try {
         const query = 'SELECT userID FROM useraccount WHERE username = ?';
         const [result] = await db.execute (query, [username]);
-        return result.length > 0 ? result [0] : null
+        return result.length > 0 ? result [0].userID : null
     } catch (error) {
         console.error ("Error finding user's ID:", error);
         throw error;
