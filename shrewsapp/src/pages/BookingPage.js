@@ -154,22 +154,21 @@ const BookingPage = () => {
     };
 
     const setBookedDays = async (username, datesArr) => {
-        if (datesArr.length === 0) {
+        if (!datesArr || datesArr.length === 0) {
             setIsBooked ([false, false]);
             return;
         }
 
         // If the dates are weird, try to add .utc after moment
-        const formattedDate = await moment (datesArr[0]).format("YYYY-MM-DD");
-        
-        if (datesArr.length > 1) {
-            setIsBooked ([true, true]);
-        } else if (formattedDate === dates[0].dbDate) {
-            setIsBooked ([true, false]);
-        } else if (formattedDate === dates[1].dbDate) {
-            setIsBooked ([false, true]);
-        }
+        const formattedBookedDates = datesArr.map(date => moment(date).format("YYYY-MM-DD"));
 
+        // Check if the two available booking dates are in the booked list
+        const isFirstDateBooked = formattedBookedDates.includes(dates[0].dbDate);
+        const isSecondDateBooked = formattedBookedDates.includes(dates[1].dbDate);
+      
+        setIsBooked([isFirstDateBooked, isSecondDateBooked]);
+
+        console.log (dates[0].dbDate);
         await setBookedMeals (username, dates[0].dbDate);
         await setBookedMeals (username, dates[1].dbDate);
     }
