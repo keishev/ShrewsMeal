@@ -1,12 +1,12 @@
 const db = require ('../db/db');
 
-exports.createUser = async (user) => {
+exports.createUser = async (firstName, lastName, username, userPassword, role, building, unitNumber, phoneNUmber) => {
     try {
         const query = `INSERT INTO useraccount 
-            (first_name, last_name, username, userPassword, role, unitNumber, dietaryRestrictions) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)`;
+            (first_name, last_name, username, userPassword, role, building, unitNumber, phoneNumber)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
-        const values = [user.first_name, user.last_name, user.username, user.userPassword, user.role, user.unitNumber, user.dietaryRestrictions];
+        const values = [firstName, lastName, username, userPassword, role, building, unitNumber, phoneNUmber];
 
         const [result] = await db.execute(query, values);
         return result;
@@ -15,6 +15,18 @@ exports.createUser = async (user) => {
         throw error;
     }
 };
+
+exports.storeUserRestrictions = async (userID, dietaryList) => {
+    try {
+        const query = `INSERT INTO user_dietary (user_id, dietary_id) VALUES (?, ?)`;
+        const values = [userID, dietaryList];
+        const [result] = await db.execute (query, values);
+        return result;
+    } catch (error) {
+        console.error ("Error inserting user dietary");
+        throw error;
+    }
+}
 
 exports.findByUsername = async (username) => {
     try {
@@ -57,6 +69,17 @@ exports.deleteUserById = async (userID) => {
         return result;
     } catch (error) {
         console.error ("Error deleting user:", error);
+        throw error;
+    }
+}
+
+exports.checkUsernameAvail = async (username) => {
+    try {
+        const query = `SELECT userID FROM useraccount WHERE username = ?`;
+        const [result] = await db.execute (query, [username]);
+        return result;
+    } catch (error) {
+        console.error ("Error checking username availability:", error);
         throw error;
     }
 }

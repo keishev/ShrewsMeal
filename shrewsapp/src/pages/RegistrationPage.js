@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import './RegistrationPage.css';
+import { registerNewUser } from '../api/register.js';
 
 const RegistrationPage = () => {
     const [formData, setFormData] = useState({
@@ -10,12 +11,42 @@ const RegistrationPage = () => {
         role: '',
         building: '',
         unitNumber: '',
-        dietaryRestrictions: [],
-        others: ''
+        dietary: []
       });
 
-    const handleRegistration = async () => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData (prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
+    const handleCheckBoxChange = (e) => {
+        const { value, checked } = e.target;
+        setFormData (prevState => ({
+            ...prevState,
+            dietary: checked
+                ? [...prevState.dietary, value]     // Add into array if checked
+                : prevState.dietary.filter (item => item !== value)     // Remove if unchecked
+        }))
+    }
+    const handleRegistration = async (e) => {
+        e.preventDefault ();
+
+        try {
+            const res = await registerNewUser (formData);
+            
+            if (res.Status === "Success") {
+                alert ('Registration successful!');
+            } else {
+                alert ('Registration failed');
+            }
+
+        } catch (error) {
+            console.error ('Error handling user registration:', error);
+        }
+        console.log ("Form submitted:", formData);
     };
 
     return (
@@ -24,128 +55,108 @@ const RegistrationPage = () => {
 
             <div className='form-container'>
                 <form onSubmit={handleRegistration}>
-                    <div className="form-row">
-                        <div className="form-group">
-                            <label className='form-label'>First Name</label>
-                            <input
-                            className='form-input'
-                            type="text"
-                            name="firstName"
-                            value={formData.firstName}
-                            // onChange={handleChange}
-                            required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label className='form-label'>Last Name</label>
-                            <input
-                            className='form-input'
-                            type="text"
-                            name="lastName"
-                            value={formData.lastName}
-                            // onChange={handleChange}
-                            required
-                            />
-                        </div>
-                    </div>
-                    <div className="form-row">
-                        <div className="form-group">
-                            <label className='form-label'>Phone Number</label>
-                            <input
-                            className='form-input'
-                            type="text"
-                            name="firstName"
-                            value={formData.firstName}
-                            // onChange={handleChange}
-                            required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label className='form-label'>Role</label>
-                            <select
-                                className='form-input dropdown-input'
-                                name='role'
-                                value={formData.role}
-                                // onChange={handleChange}
+                    <div className='form-content'>
+                        <div className="form-row">
+                            <div className="form-group">
+                                <label className='form-label'>First Name</label>
+                                <input
+                                className='form-input'
+                                type="text"
+                                name="firstName"
+                                value={formData.firstName}
+                                onChange={handleChange}
                                 required
-                            >
-                                <option value="">Select a role</option> 
-                                <option value="COOK">Cook</option>
-                                <option value="TENANT">Tenant</option>
-                            </select>
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label className='form-label'>Last Name</label>
+                                <input
+                                className='form-input'
+                                type="text"
+                                name="lastName"
+                                value={formData.lastName}
+                                onChange={handleChange}
+                                required
+                                />
+                            </div>
+                        </div>
+                        <div className="form-row">
+                            <div className="form-group">
+                                <label className='form-label'>Phone Number</label>
+                                <input
+                                className='form-input'
+                                type="tel"
+                                pattern='[0-9]*'
+                                inputMode='numeric'
+                                name="phoneNumber"
+                                value={formData.phoneNumber}
+                                onChange={handleChange}
+                                required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label className='form-label'>Role</label>
+                                <select
+                                    className='form-input dropdown-input'
+                                    name='role'
+                                    value={formData.role}
+                                    onChange={handleChange}
+                                    required
+                                >
+                                    <option value="">Select a role</option> 
+                                    <option value="COOK">Cook</option>
+                                    <option value="TENANT">Tenant</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="form-row">
+                            <div className="form-group">
+                                <label className='form-label'>Building</label>
+                                <select
+                                    className='form-input dropdown-input'
+                                    name='building'
+                                    value={formData.building}
+                                    onChange={handleChange}
+                                    required
+                                >
+                                    <option value="">Select option</option> 
+                                    <option value="main">Main Building</option>
+                                    <option value="other">Second Building</option>
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label className='form-label'>Unit Number</label>
+                                <input
+                                className='form-input'
+                                type="text"
+                                name="unitNumber"
+                                value={formData.unitNumber}
+                                onChange={handleChange}
+                                required
+                                />
+                            </div>
+                        </div>
+
+                        <div className='form-row'>
+                            <div className='form-group dietary-restrictions'>
+                            <h4>Dietary Restrictions</h4>
+                            <div className='dietary-checkbox'>
+                                <label><input type="checkbox" name="dietary" value="1" className='checkbox-rounded' onChange={handleCheckBoxChange}/> No Beef</label>
+                                <label><input type="checkbox" name="dietary" value="2" className='checkbox-rounded' onChange={handleCheckBoxChange}/> No Seafood</label>
+                                <label><input type="checkbox" name="dietary" value="3" className='checkbox-rounded' onChange={handleCheckBoxChange}/> Halal</label>
+                                <label><input type="checkbox" name="dietary" value="4" className='checkbox-rounded' onChange={handleCheckBoxChange}/> Vegetarian </label>
+                            </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="form-row">
-                        <div className="form-group">
-                            <label className='form-label'>Building</label>
-                            <select
-                                className='form-input dropdown-input'
-                                name='role'
-                                value={formData.role}
-                                // onChange={handleChange}
-                                required
-                            >
-                                <option value="">Select option</option> 
-                                <option value="COOK">Cook</option>
-                                <option value="TENANT">Tenant</option>
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <label className='form-label'>Unit Number</label>
-                            <input
-                            className='form-input'
-                            type="text"
-                            name="firstName"
-                            value={formData.firstName}
-                            // onChange={handleChange}
-                            required
-                            />
-                        </div>
+                    <div className='register-button-div'>
+                        <button className='register-button' type='submit'>
+                            REGISTER
+                        </button>
                     </div>
-
-                    <div className='form-row'>
-                        <div className='form-group dietary-restrictions'>
-                        <h4>Dietary Restrictions</h4>
-                        <div className='dietary-checkbox'>
-                            <label><input type="checkbox" name="dietary" value="halal" classNmae='checkbox-rounded'/> Halal</label>
-                            <label><input type="checkbox" name="dietary" value="no-beef" classNmae='checkbox-rounded'/> No Beef</label>
-                            <label><input type="checkbox" name="dietary" value="no-seafood" classNmae='checkbox-rounded'/> No Seafood</label>
-                            <label><input type="checkbox" name="dietary" value="vegetarian" classNmae='checkbox-rounded'/> Vegetarian </label>
-                            
-                        </div>
-                        </div>
-                    </div>
-                    
-                    {/* <div className="form-group full-width">
-                        <label>Dietary Restrictions:</label>
-                        <div className="checkbox-group">
-                            <label><input type="checkbox" name="dietary" value="vegetarian" /> Vegetarian</label>
-                            <label><input type="checkbox" name="dietary" value="vegan" /> Vegan</label>
-                            <label><input type="checkbox" name="dietary" value="halal" /> Halal</label>
-                            <label><input type="checkbox" name="dietary" value="kosher" /> Kosher</label>
-                            <label>
-                                <input type="checkbox" name="dietary" value="other" 
-                                    onChange={(e) => setDietaryOther(e.target.checked ? '' : null)} /> Other:
-                                {dietaryOther !== null && (
-                                    <input 
-                                        type="text" 
-                                        name="otherDietary" 
-                                        placeholder="Please specify" 
-                                        onChange={(e) => setDietaryOther(e.target.value)} 
-                                    />
-                                )}
-                            </label>
-                        </div>
-                    </div> */}
                 </form>
-            </div>
-            <div className='register-button-div'>
-                <button className='register-button' 
-                    onClick={() => {handleRegistration()}}
-                >
-                    REGISTER
-                </button>
             </div>
         </div>
     )

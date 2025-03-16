@@ -25,13 +25,13 @@ const LoginPage = () => {
         setError ('');
 
         try {
-            const res = await userLogin (values)
+            const res = await userLogin (values);
 
             if (res.Status === "Success") {
                 setError ('');
-                navigate ('/booking')
+                navigate ('/booking');
             } else {
-                setError (res.data.Error)
+                setError (res.data.Error);
             }
 
         } catch (error) {

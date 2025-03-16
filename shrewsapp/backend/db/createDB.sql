@@ -1,0 +1,44 @@
+CREATE DATABASE IF NOT EXISTS shrewsmeal;
+
+USE shrewsmeal;
+
+DROP TABLE BOOKING;
+DROP TABLE userAccount;
+
+CREATE TABLE UserAccount (
+    userID INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    username VARCHAR(100) UNIQUE NOT NULL,
+    userPassword VARCHAR(255) NOT NULL,
+    role VARCHAR (100) NOT NULL,
+    building VARCHAR (100) NOT NULL,
+    unitNumber VARCHAR(20) NOT NULL,
+    phoneNumber VARCHAR(10) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE BOOKING (
+    bookingID INT AUTO_INCREMENT PRIMARY KEY,
+    userID INT NOT NULL,
+    bookingDate DATE UNIQUE NOT NULL,
+    breakfast BOOLEAN DEFAULT FALSE,
+    lunch BOOLEAN DEFAULT FALSE,
+    dinner BOOLEAN DEFAULT FALSE,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (userID) REFERENCES UserAccount (userID) ON DELETE CASCADE
+);
+
+CREATE TABLE dietary_list (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    restriction VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE user_dietary (
+    user_id INT NOT NULL,
+    dietary_id INT NOT NULL,
+    PRIMARY KEY (user_id, dietary_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (dietary_id) REFERENCES dietary_list(id) ON DELETE CASCADE
+);
+

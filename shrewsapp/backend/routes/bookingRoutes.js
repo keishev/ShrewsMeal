@@ -9,4 +9,4 @@ router.post ('/booking/update', updateBooking);
 router.get ('/booking/getSetMeals', getAndSetBookedMeals);
 router.get ('/booking/check', checkBooking);
 
-module.exports = router
+module.exports = router;
