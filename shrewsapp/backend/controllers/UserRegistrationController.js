@@ -21,11 +21,10 @@ exports.createNewUser = async (req, res) => {
         }
     
         const userId = insertedUser.insertId;
-    
+        
         // Inserting dietary restrictions if provided
         if (dietary && dietary.length > 0) {
             const dietaryValues = dietary.map (id => [userId, id]);
-            console.log ('diet', dietaryValues);
             await insertUserDietary (dietaryValues);
         }    
 
