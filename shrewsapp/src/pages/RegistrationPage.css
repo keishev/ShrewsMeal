@@ -150,3 +150,9 @@ html, body {
 .checkbox-rounded {
     border-radius: 50px;
 }
+
+/*.swal-wide {
+    width: 85% !important;
+    height: 60%;
+    /* font-size: 1rem !important; 
+}*/

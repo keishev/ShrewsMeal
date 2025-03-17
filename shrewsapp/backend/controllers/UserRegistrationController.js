@@ -21,14 +21,14 @@ exports.createNewUser = async (req, res) => {
         }
     
         const userId = insertedUser.insertId;
-        
+
         // Inserting dietary restrictions if provided
         if (dietary && dietary.length > 0) {
             const dietaryValues = dietary.map (id => [userId, id]);
             await insertUserDietary (dietaryValues);
         }    
 
-        return res.json ({ Status: "Success" });
+        return res.json ({ Status: "Success", username: username, defaultPassword: password });
     } catch (error) {
         return res.json ({ Status: "Error" });
     }

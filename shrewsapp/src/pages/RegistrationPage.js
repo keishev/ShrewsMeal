@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2';
 
 import './RegistrationPage.css';
 import { registerNewUser } from '../api/register.js';
@@ -12,7 +13,17 @@ const RegistrationPage = () => {
         building: '',
         unitNumber: '',
         dietary: []
-      });
+    });
+
+    const initialFormState = {
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        role: '',
+        building: '',
+        unitNumber: '',
+        dietary: []
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -38,15 +49,20 @@ const RegistrationPage = () => {
             const res = await registerNewUser (formData);
             
             if (res.Status === "Success") {
-                alert ('Registration successful!');
+                await Swal.fire({
+                    title: 'Registration Successful!',
+                    html: `Username: <b>${res.username}</b><br>Temporary password: <b>${res.defaultPassword}</b>`,
+                    icon: 'success'
+                });
+                
+                setFormData (initialFormState);
             } else {
-                alert ('Registration failed');
+                await Swal.fire('Registration failed', 'Please try again', 'error');
             }
 
         } catch (error) {
             console.error ('Error handling user registration:', error);
         }
-        console.log ("Form submitted:", formData);
     };
 
     return (

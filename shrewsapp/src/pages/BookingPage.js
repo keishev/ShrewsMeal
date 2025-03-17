@@ -144,9 +144,7 @@ const BookingPage = () => {
 
     const checkBooking = async (username) => {
         try {
-            console.log ('username in checkbooking', username);
             const bookedDays = await checkBookedDays (username);
-            console.log ('username & bookedDays:' + username + " " + bookedDays.dates);
             await setBookedDays (username, bookedDays.dates);
         } catch (error) {
             console.log ('Error checking booking:', error);
