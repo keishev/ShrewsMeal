@@ -28,8 +28,15 @@ const LoginPage = () => {
             const res = await userLogin (values);
 
             if (res.Status === "Success") {
+              const role = res.role;
+
+              if (role === "COOK") {
+                setError ('');
+                navigate ('/register');
+              } else {
                 setError ('');
                 navigate ('/booking');
+              }
             } else {
                 setError (res.data.Error);
             }

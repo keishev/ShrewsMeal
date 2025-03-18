@@ -2,21 +2,22 @@ const jwt = require ('jsonwebtoken');
 const dotenv= require("dotenv");
 dotenv.config({ path: "../.env" });
 
-const verifyUser = async (req, res, next) => {
-    const token = req.cookies.token;        // get the token from the cookie
 
-    // If token doesn't exist, then return with a error message
+const verifyUser = (req, res, next) => {
+    const token = req.cookies.token; // Get the token from cookies
+
     if (!token) {
-        return res.json ({ Error: "You are not authenticated" })
-    } else {
-        jwt.verify (token, process.env.JWT_SECRET, (err, decodedVal) => {
-            if (err) {
-                return res.json ({ Error: "Invalid token!" })
-            } else {
-                req.username = decodedVal.username;
-                next ();
-            }
-        });
+        return res.status(401).json({ message: "Unauthorized: No token provided" }); // Use 401 for missing token
+    }
+
+    try {
+        const decodedVal = jwt.verify(token, process.env.JWT_SECRET); // Verify token safely
+        req.username = decodedVal.username;  // Attach user info to request
+        req.role = decodedVal.role;          // Store user role (if needed)
+        console.log ('decoded role:', req.role);
+        next(); // Proceed to the next middleware
+    } catch (err) {
+        return res.status(403).json({ message: "Forbidden: Invalid or expired token" }); // Use 403 for invalid token
     }
 };
 

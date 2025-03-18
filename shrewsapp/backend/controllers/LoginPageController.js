@@ -21,9 +21,14 @@ exports.login = async (req, res) => {
                 // Generate a token with our username and role, then store it inside a cookie
                 const username = user.username;
                 const role = user.role;
-                const token = jwt.sign ({ username, role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-                res.cookie ('token', token);
-                return res.json ({ Status: "Success" });
+                const token = jwt.sign ({ username: username, role: role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+                res.cookie ('token', token, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === "production",   // Ensures secure cookies in production
+                    samesite: "Strict",     // Prevent CSRF attacks
+                    maxAge: 60 * 60 * 1000  // 1 hour
+                });
+                return res.json ({ Status: "Success", role: role});
             } else {
                 return res.status (401).json ({ Error: "Invalid credentials!" });
             }

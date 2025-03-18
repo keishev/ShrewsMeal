@@ -4,14 +4,20 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './pages/LoginPage.js'
 import Register from './pages/RegistrationPage.js'
 import BookingPage from './pages/BookingPage.js'
+import ProtectedRoute from './ProtectedRoute.js'
 
 function App () {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Login />} />
-        <Route path='/register' element={<Register />} /> 
-        <Route path='/booking' element={<BookingPage />} />
+        <Route element={<ProtectedRoute allowedRoles={["COOK"]} />}>
+          <Route path='/register' element={<Register />} />
+        </Route>
+        
+        <Route element={<ProtectedRoute allowedRoles={["TENANT"]} />}>
+          <Route path='/booking' element={<BookingPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )

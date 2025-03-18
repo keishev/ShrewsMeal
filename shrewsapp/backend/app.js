@@ -6,6 +6,7 @@ const app = express();
 const loginRoutes = require ('./routes/loginRoutes');
 const bookingRoutes = require ('./routes/bookingRoutes');
 const registrationRoutes = require ('./routes/registrationRoutes');
+const authRoutes = require ('./routes/authRoutes');
 
 app.use (cookieParser());
 app.use(
@@ -20,5 +21,6 @@ app.use (express.json());
 app.use ("/api", loginRoutes);
 app.use ("/api", bookingRoutes);
 app.use ("/api", registrationRoutes);
+app.use ("/api", authRoutes);
 
 module.exports = app;
