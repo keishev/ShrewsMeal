@@ -14,7 +14,6 @@ const verifyUser = (req, res, next) => {
         const decodedVal = jwt.verify(token, process.env.JWT_SECRET); // Verify token safely
         req.username = decodedVal.username;  // Attach user info to request
         req.role = decodedVal.role;          // Store user role (if needed)
-        console.log ('decoded role:', req.role);
         next(); // Proceed to the next middleware
     } catch (err) {
         return res.status(403).json({ message: "Forbidden: Invalid or expired token" }); // Use 403 for invalid token

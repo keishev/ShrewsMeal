@@ -8,6 +8,7 @@ import Swal from 'sweetalert2'
 import './BookingPage.css'
 import '../components/BookingCarousel.js'
 import MealSelectionSlider from '../components/BookingCarousel.js'
+import NavBar from '../components/NavBar.js'
 
 import { checkAuthenticated, createBooking, modifyBooking, getAndSetBookedMeals, checkBookedDays } from '../api/booking.js'
 
@@ -206,18 +207,22 @@ const BookingPage = () => {
                 <p>Loading...</p>
             ) : auth && (isBooked !== null) ?
                 <div> 
-                    <h5 className="welcome-msg">Welcome, {username}</h5>
-                    <h1 className="heading">MAKE YOUR <br /> BOOKING FOR</h1>
+                    <div>
+                        <h5 className="welcome-msg">Welcome, {username}</h5>
+                        <h1 className="heading">MAKE YOUR <br /> BOOKING FOR</h1>
 
-                    <MealSelectionSlider
-                        dates={dates}
-                        selectedMeals={selectedMeals}
-                        isBooked={isBooked}
-                        toggleMeal={toggleMeal}
-                        handleModify={handleModify}
-                        handleBooking={handleBooking}
-                    />     
+                        <MealSelectionSlider
+                            dates={dates}
+                            selectedMeals={selectedMeals}
+                            isBooked={isBooked}
+                            toggleMeal={toggleMeal}
+                            handleModify={handleModify}
+                            handleBooking={handleBooking}
+                        />
+                    </div>
+                    <NavBar/>
                 </div>
+                
                 :
                 <div>
                     <h3>{message}</h3>
