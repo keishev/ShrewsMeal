@@ -8,7 +8,7 @@ import Swal from 'sweetalert2'
 import './BookingPage.css'
 import '../components/BookingCarousel.js'
 import MealSelectionSlider from '../components/BookingCarousel.js'
-import NavBar from '../components/NavBar.js'
+import TenantNavBar from '../components/TenantNavBar.js'
 
 import { checkAuthenticated, createBooking, modifyBooking, getAndSetBookedMeals, checkBookedDays } from '../api/booking.js'
 
@@ -220,7 +220,7 @@ const BookingPage = () => {
                             handleBooking={handleBooking}
                         />
                     </div>
-                    <NavBar/>
+                    <TenantNavBar/>
                 </div>
                 
                 :

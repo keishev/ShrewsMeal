@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 
 import './RegistrationPage.css';
 import { registerNewUser } from '../api/register.js';
+import CookNavBar from '../components/CookNavBar.js';
 
 const RegistrationPage = () => {
     const [formData, setFormData] = useState({
@@ -174,6 +175,7 @@ const RegistrationPage = () => {
                     </div>
                 </form>
             </div>
+            <CookNavBar/>
         </div>
     )
 };
