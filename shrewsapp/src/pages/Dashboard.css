@@ -1,0 +1,21 @@
+.dashboard-container {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+}
+
+.select-date {
+    width: 50%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid black;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.settings-container {
+    display: flex; 
+    align-items: center; /* Align elements vertically */
+    gap: 10px; /* Adds spacing between elements */
+}

@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './pages/LoginPage.js'
 import Register from './pages/RegistrationPage.js'
 import BookingPage from './pages/BookingPage.js'
+import Dashboard from './pages/Dashboard.js'
 import ProtectedRoute from './ProtectedRoute.js'
 
 function App () {
@@ -13,6 +14,10 @@ function App () {
         <Route path='/' element={<Login />} />
         <Route element={<ProtectedRoute allowedRoles={["COOK"]} />}>
           <Route path='/register' element={<Register />} />
+        </Route>
+
+        <Route element={<ProtectedRoute allowedRoles={["COOK"]} />}>
+          <Route path='/dashboard' element={<Dashboard />} />
         </Route>
         
         <Route element={<ProtectedRoute allowedRoles={["TENANT"]} />}>

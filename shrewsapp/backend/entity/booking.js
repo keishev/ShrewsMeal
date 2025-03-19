@@ -40,7 +40,6 @@ exports.getSelectedMeals = async (userID, date) => {
     try {
         const query = 'SELECT breakfast, lunch, dinner FROM booking WHERE userID = ? AND bookingDate = ?';
         const values = [userID, date];
-        console.log ('date:', date);
         const [result] = await db.execute (query, values)
 
         if (result.length > 0) {
@@ -55,5 +54,43 @@ exports.getSelectedMeals = async (userID, date) => {
         }
     } catch (error) {
         console.error ("Error fetching selected meals:", error);
+    }
+}
+
+exports.getAllBookingByDate = async (date) => {
+    try {
+        const query = `SELECT b.bookingID, b.bookingDate, b.breakfast, b.lunch, b.dinner, u.userID, u.first_name, u.last_name, u.building, u.unitNumber
+                        FROM booking b
+                        JOIN useraccount u ON b.userID = u.userID
+                        WHERE b.bookingDate = ?`;
+
+        const [result] = await db.execute (query, [date]);
+        
+        if (result.length === 0) {
+            return null;
+        }
+
+        return result;
+    } catch (error) {
+        console.error ("Error getting bookings by date:", error);
+    }
+}
+
+exports.getAllBookingByUser = async (userID) => {
+    try {
+        const query = `SELECT b.bookingID, b.bookingDate, b.breakfast, b.lunch, b.dinner, u.userID, u.first_name, u.last_name, u.building, u.unitNumber
+                        FROM booking b
+                        JOIN useraccount u ON b.userID = u.userID
+                        WHERE b.bookingDate = ?`;
+        
+        const [result] = await db.execute (query, [userID]);
+        
+        if (result.length === 0) {
+            return null;
+        }
+
+        return result;
+    } catch (error) {
+        console.error ("Error getting bookings by user:", error);
     }
 }

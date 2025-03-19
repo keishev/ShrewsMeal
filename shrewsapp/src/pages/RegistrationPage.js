@@ -157,7 +157,7 @@ const RegistrationPage = () => {
 
                         <div className='form-row'>
                             <div className='form-group dietary-restrictions'>
-                            <h4>Dietary Restrictions</h4>
+                            <h4>Dietary Restrictions (optional)</h4>
                             <div className='dietary-checkbox'>
                                 <label><input type="checkbox" name="dietary" value="1" className='checkbox-rounded' onChange={handleCheckBoxChange}/> No Beef</label>
                                 <label><input type="checkbox" name="dietary" value="2" className='checkbox-rounded' onChange={handleCheckBoxChange}/> No Seafood</label>

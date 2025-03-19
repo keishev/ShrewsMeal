@@ -10,7 +10,7 @@ export default function NavBar() {
         <UserPlus size={24} />
         <span className="nav-label">Add Account</span>
       </Link>
-      <Link to="/booking" className="nav-item">
+      <Link to="/dashboard" className="nav-item">
         <Home size={24} />
         <span className="nav-label">Dashboard</span>
       </Link>

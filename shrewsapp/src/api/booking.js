@@ -59,3 +59,15 @@ export const checkBookedDays = async (username) => {
     }
 }
 
+export const getBookingsByDate = async (date) => {
+    try {
+        const response = await axios.get (`${BASE_URL}/booking/getBookingsByDate`, {
+            params: { date }
+        });
+        console.log ('api bookings:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error ("Error in fetching bokkings by date", error);
+        throw error;
+    }
+}

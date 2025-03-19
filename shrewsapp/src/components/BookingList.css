@@ -1,0 +1,54 @@
+/* Ensure React root container takes full width & height */
+#root, .container, .table-container {
+    width: 100vw;  /* 100% of viewport width */
+    height: 100vh; /* 100% of viewport height */
+    overflow-x: hidden;
+}
+
+/* Make table scrollable on small screens*/
+.table-container {
+    padding-top: 0.5rem;
+    overflow-x: auto;
+    max-width: 100%;
+    margin: 0 auto;
+    display: block;
+}
+
+.heading {
+    margin: 1rem;
+}
+
+.responsive-table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto;
+    overflow: hidden;
+    background-color: #D9D9D9;
+    border-radius: 12px;
+    margin-right: 1rem;
+}
+
+.responsive-table th {
+    text-align: center;
+    padding: 10px;
+    word-wrap: break-word;
+    white-space: normal;
+    font-weight: 1000;
+    background-color: black;
+    color: white;
+    /* border-radius: 15px; */
+}
+
+.responsive-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+
+.table-container::after {
+    content: "";
+    display: block;
+    width: 20px; /* Adds spacing after scrolling */
+}
