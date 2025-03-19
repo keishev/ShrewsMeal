@@ -7,7 +7,7 @@ import './Dashboard.css'
 
 const Dashboard = () => {
     const [selectedDate, setSelectedDate] = useState (dayjs());
-    const [selectedSorting, setSelectedSorting] = useState ('')
+    const [selectedSorting, setSelectedSorting] = useState ('default')
 
     const handleDateChange = (event) => {
         setSelectedDate (event.target.value);
@@ -15,6 +15,7 @@ const Dashboard = () => {
 
     const handleChange = (event) => {
         setSelectedSorting (event.target.value);
+        console.log ("selected sort", selectedSorting);
     };
 
     return (
@@ -25,23 +26,23 @@ const Dashboard = () => {
                     type="date"
                     value={selectedDate}
                     onChange={handleDateChange}
-                    className='select-date'
+                    className='settings'
                 />
                 <select
-                    className='select-date'
+                    className='settings'
                     name='sorting'
                     value={selectedSorting}
                     onChange={handleChange}
                 >
-                    <option value="">Sort by</option> 
+                    <option value="default">Display by (default)</option> 
                     <option value="unitNumber">Unit Number</option>
                     <option value="breakfast">Breakfast</option>
-                    <option value="Lunch">Lunch</option>
-                    <option value="Dinner">Dinner</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="dinner">Dinner</option>
                 </select>
             </div>
             
-            <BookingList selectedDate={selectedDate} />
+            <BookingList selectedDate={selectedDate} sorting={selectedSorting}/>
         </div>
     )
 }

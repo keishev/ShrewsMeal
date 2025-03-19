@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { getBookingsByDate } from '../api/booking';
 import './BookingList.css'
 import CookNavBar from './CookNavBar.js'
 
-const BookingList = ({ selectedDate }) => {
+const BookingList = ({ selectedDate, sorting }) => {
     const [bookings, setBookings] = useState ([]);
     const [loading, setLoading] = useState (true);
     const [error, setError] = useState (null);
@@ -12,12 +12,8 @@ const BookingList = ({ selectedDate }) => {
     useEffect (() => {
         const fetchBookings = async () => {
             try {
-                const response = await getBookingsByDate (selectedDate);
-                if (Array.isArray (response)) {
-                    setBookings (response);
-                } else {
-                    setBookings ([]);
-                }
+                const response = await getBookingsByDate(selectedDate);
+                setBookings(Array.isArray(response) ? response : []);
                 setLoading (false);
             } catch (error) {
                 setError ('Failed to fetch bookings.');
@@ -30,7 +26,23 @@ const BookingList = ({ selectedDate }) => {
             fetchBookings ();
         };
 
-    }, [selectedDate]);
+    }, [selectedDate, sorting]);
+
+    const filteredAndSortedBookings = useMemo (() => {
+        return [...bookings]
+        .filter (booking => {
+            if (sorting === "breakfast") return booking.breakfast;
+            if (sorting === "lunch") return booking.lunch;
+            if (sorting === "dinner") return booking.dinner;
+            return true;
+        })
+        .sort ((a, b) => {
+            if (sorting === "unitNumber") {
+                return a.unitNumber.localeCompare (b.unitNumber, undefined, { numeric: true })
+            }
+            return 0;
+        })
+    }, [bookings, sorting]);
 
     if (loading) {
         return <div> Loading bookings...</div>
@@ -41,24 +53,36 @@ const BookingList = ({ selectedDate }) => {
             <div>
                 <table className='responsive-table'>
                     <thead>
-                        <tr>
+                        <tr key='mealHeader'>
                             <th>Name</th>
                             <th>Building</th>
                             <th>Unit Number</th>
-                            <th>Breakfast</th>
-                            <th>Lunch</th>
-                            <th>Dinner</th>
+                            { sorting === "default" || sorting === "unitNumber" ? (
+                                <>
+                                    <th>Breakfast</th>
+                                    <th>Lunch</th>
+                                    <th>Dinner</th>
+                                </>
+                            ) : (
+                                <th>{sorting.charAt(0).toUpperCase() + sorting.slice(1)}</th>
+                            )}
                         </tr>
                     </thead>
                     <tbody>
-                        {bookings.map((booking) => (
-                        <tr key={booking.id}>
+                        {filteredAndSortedBookings.map((booking) => (
+                        <tr key={booking.bookingID}>
                             <td>{booking.first_name}</td>
                             <td>{booking.building}</td>
                             <td>{booking.unitNumber}</td>
-                            <td>{booking.breakfast ? "Yes" : "No"}</td>
-                            <td>{booking.lunch ? "Yes" : "No"}</td>
-                            <td>{booking.dinner ? "Yes" : "No"}</td>
+                            { sorting === "default" || sorting === "unitNumber" ? (
+                                <>
+                                    <td>{booking.breakfast ? "Yes" : "No"}</td>
+                                    <td>{booking.lunch ? "Yes" : "No"}</td>
+                                    <td>{booking.dinner ? "Yes" : "No"}</td>
+                                </>
+                            ) : (
+                                <td>Yes</td>
+                            )}
                         </tr>
                         ))}
                     </tbody>
