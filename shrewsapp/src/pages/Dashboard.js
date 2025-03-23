@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
 
 import BookingList from '../components/BookingList'
+import Summary from '../components/Summary'
 import './Dashboard.css'
 
 const Dashboard = () => {
@@ -15,7 +16,6 @@ const Dashboard = () => {
 
     const handleChange = (event) => {
         setSelectedSorting (event.target.value);
-        console.log ("selected sort", selectedSorting);
     };
 
     return (
@@ -42,7 +42,10 @@ const Dashboard = () => {
                 </select>
             </div>
             
-            <BookingList selectedDate={selectedDate} sorting={selectedSorting}/>
+            <div className='dashboard-info-container'>
+                <BookingList selectedDate={selectedDate} sorting={selectedSorting}/>
+                <Summary selectedDate={selectedDate}/>
+            </div>
         </div>
     )
 }

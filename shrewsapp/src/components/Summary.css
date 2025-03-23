@@ -1,0 +1,45 @@
+.summary-title {
+    font-size: 1.25rem;
+    margin: 0;
+    color: white;
+}
+
+.title-div {
+    padding: 0.5rem;
+    width: 100%;
+    background-color: black;
+}
+
+.summary-header {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.summary-content {
+    height: 15%;
+    margin: 1rem;
+    margin-top: 0;
+    width: 100%;
+}
+
+.summary-container {
+    align-items: center;
+    justify-items: center;
+    background-color: #D9D9D9;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 65vw;
+    margin: 2rem;
+    /* display: flex;
+    flex-direction: row;  */
+}
+
+.summary-slide {
+    display: flex 1;
+    flex-direction: row;
+    flex-direction: row;
+    align-items: center;
+    width: 75%;
+    justify-items: center;
+    margin: 1rem;
+}

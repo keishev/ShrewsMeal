@@ -1,0 +1,31 @@
+.progress-bar-container {
+    width: 75%;
+    border-radius: 12px;
+    height: 20px;
+    border: 1px solid black;
+    margin: 0 auto;
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+    
+}
+
+.progress-bar {
+    background-color: black;
+    height: 100%;
+    border-radius: 8px;
+    transition: width 0.3s ease; /* Smooth transition */
+}
+
+.progress-bar-root {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.progress {
+    min-width: 40px;
+    text-align: right;
+    font-weight: bold;
+}

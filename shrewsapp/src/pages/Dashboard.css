@@ -19,3 +19,7 @@
     align-items: center; /* Align elements vertically */
     gap: 10px; /* Adds spacing between elements */
 }
+
+.dashboard-info-container {
+    justify-items: center;
+}
