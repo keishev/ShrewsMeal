@@ -33,7 +33,6 @@ const BookingPage = () => {
     const [isBooked, setIsBooked] = useState ([false, false]);
     const [isModifying, setIsModifying] = useState([false, false]); // Tracks modification status
 
-
     useEffect(() => {
         const today = dayjs();
 
