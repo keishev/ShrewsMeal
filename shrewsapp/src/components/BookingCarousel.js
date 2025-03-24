@@ -5,7 +5,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel'
 
 import './BookingCarousel.css'
-import { SlidersHorizontalIcon } from 'lucide-react';
 
 const MealSelectionSlider = ({ dates, selectedMeals, isBooked, toggleMeal, handleModify, handleBooking }) => {
   const settings = {

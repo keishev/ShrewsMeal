@@ -67,113 +67,115 @@ const RegistrationPage = () => {
     };
 
     return (
-        <div className='regis-container'>
-            <h1 className="regis-heading">REGISTER AN<br/>ACCOUNT</h1>
+        <div className='main-container'>
+            <div className='regis-container'>
+                <h1 className="regis-heading">REGISTER AN<br/>ACCOUNT</h1>
 
-            <div className='form-container'>
-                <form onSubmit={handleRegistration}>
-                    <div className='form-content'>
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label className='form-label'>First Name</label>
-                                <input
-                                className='form-input'
-                                type="text"
-                                name="firstName"
-                                value={formData.firstName}
-                                onChange={handleChange}
-                                required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label className='form-label'>Last Name</label>
-                                <input
-                                className='form-input'
-                                type="text"
-                                name="lastName"
-                                value={formData.lastName}
-                                onChange={handleChange}
-                                required
-                                />
-                            </div>
-                        </div>
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label className='form-label'>Phone Number</label>
-                                <input
-                                className='form-input'
-                                type="tel"
-                                pattern='[0-9]*'
-                                inputMode='numeric'
-                                name="phoneNumber"
-                                value={formData.phoneNumber}
-                                onChange={handleChange}
-                                required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label className='form-label'>Role</label>
-                                <select
-                                    className='form-input dropdown-input'
-                                    name='role'
-                                    value={formData.role}
+                <div className='form-container'>
+                    <form onSubmit={handleRegistration}>
+                        <div className='form-content'>
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label className='form-label'>First Name</label>
+                                    <input
+                                    className='form-input'
+                                    type="text"
+                                    name="firstName"
+                                    value={formData.firstName}
                                     onChange={handleChange}
                                     required
-                                >
-                                    <option value="">Select a role</option> 
-                                    <option value="COOK">Cook</option>
-                                    <option value="TENANT">Tenant</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label className='form-label'>Building</label>
-                                <select
-                                    className='form-input dropdown-input'
-                                    name='building'
-                                    value={formData.building}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label className='form-label'>Last Name</label>
+                                    <input
+                                    className='form-input'
+                                    type="text"
+                                    name="lastName"
+                                    value={formData.lastName}
                                     onChange={handleChange}
                                     required
-                                >
-                                    <option value="">Select option</option> 
-                                    <option value="main">Main Building</option>
-                                    <option value="other">Second Building</option>
-                                </select>
+                                    />
+                                </div>
                             </div>
-                            <div className="form-group">
-                                <label className='form-label'>Unit Number</label>
-                                <input
-                                className='form-input'
-                                type="text"
-                                name="unitNumber"
-                                value={formData.unitNumber}
-                                onChange={handleChange}
-                                required
-                                />
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label className='form-label'>Phone Number</label>
+                                    <input
+                                    className='form-input'
+                                    type="tel"
+                                    pattern='[0-9]*'
+                                    inputMode='numeric'
+                                    name="phoneNumber"
+                                    value={formData.phoneNumber}
+                                    onChange={handleChange}
+                                    required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label className='form-label'>Role</label>
+                                    <select
+                                        className='form-input dropdown-input'
+                                        name='role'
+                                        value={formData.role}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="">Select a role</option> 
+                                        <option value="COOK">Cook</option>
+                                        <option value="TENANT">Tenant</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label className='form-label'>Building</label>
+                                    <select
+                                        className='form-input dropdown-input'
+                                        name='building'
+                                        value={formData.building}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="">Select option</option> 
+                                        <option value="main">Main Building</option>
+                                        <option value="other">Second Building</option>
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label className='form-label'>Unit Number</label>
+                                    <input
+                                    className='form-input'
+                                    type="text"
+                                    name="unitNumber"
+                                    value={formData.unitNumber}
+                                    onChange={handleChange}
+                                    required
+                                    />
+                                </div>
+                            </div>
+
+                            <div className='form-row'>
+                                <div className='form-group dietary-restrictions'>
+                                <h4>Dietary Restrictions (optional)</h4>
+                                <div className='dietary-checkbox'>
+                                    <label className='checkbox-label'><input type="checkbox" name="dietary" value="1" className='checkbox-rounded' onChange={handleCheckBoxChange}/> No Beef</label>
+                                    <label className='checkbox-label'><input type="checkbox" name="dietary" value="2" className='checkbox-rounded' onChange={handleCheckBoxChange}/> No Seafood</label>
+                                    <label className='checkbox-label'><input type="checkbox" name="dietary" value="3" className='checkbox-rounded' onChange={handleCheckBoxChange}/> Halal</label>
+                                    <label className='checkbox-label'><input type="checkbox" name="dietary" value="4" className='checkbox-rounded' onChange={handleCheckBoxChange}/> Vegetarian </label>
+                                </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div className='form-row'>
-                            <div className='form-group dietary-restrictions'>
-                            <h4>Dietary Restrictions (optional)</h4>
-                            <div className='dietary-checkbox'>
-                                <label><input type="checkbox" name="dietary" value="1" className='checkbox-rounded' onChange={handleCheckBoxChange}/> No Beef</label>
-                                <label><input type="checkbox" name="dietary" value="2" className='checkbox-rounded' onChange={handleCheckBoxChange}/> No Seafood</label>
-                                <label><input type="checkbox" name="dietary" value="3" className='checkbox-rounded' onChange={handleCheckBoxChange}/> Halal</label>
-                                <label><input type="checkbox" name="dietary" value="4" className='checkbox-rounded' onChange={handleCheckBoxChange}/> Vegetarian </label>
-                            </div>
-                            </div>
+                        <div className='register-button-div'>
+                            <button className='register-button' type='submit'>
+                                REGISTER
+                            </button>
                         </div>
-                    </div>
-
-                    <div className='register-button-div'>
-                        <button className='register-button' type='submit'>
-                            REGISTER
-                        </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
             <CookNavBar/>
         </div>

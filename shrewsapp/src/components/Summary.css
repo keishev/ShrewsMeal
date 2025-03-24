@@ -17,7 +17,7 @@
 
 .summary-content {
     height: 15%;
-    margin: 1rem;
+    margin: 0.5rem;
     margin-top: 0;
     width: 100%;
 }
@@ -39,7 +39,7 @@
     flex-direction: row;
     flex-direction: row;
     align-items: center;
-    width: 75%;
+    width: 85%;
     justify-items: center;
     margin: 1rem;
 }

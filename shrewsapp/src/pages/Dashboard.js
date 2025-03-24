@@ -4,6 +4,8 @@ import dayjs from 'dayjs'
 
 import BookingList from '../components/BookingList'
 import Summary from '../components/Summary'
+import CookNavBar from '../components/CookNavBar'
+
 import './Dashboard.css'
 
 const Dashboard = () => {
@@ -19,33 +21,36 @@ const Dashboard = () => {
     };
 
     return (
-        <div className='dashboard-container'>
-            <h1 className='heading'>Dashboard</h1>
-            <div className='settings-container'>
-                <input
-                    type="date"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    className='settings'
-                />
-                <select
-                    className='settings'
-                    name='sorting'
-                    value={selectedSorting}
-                    onChange={handleChange}
-                >
-                    <option value="default">Display by (default)</option> 
-                    <option value="unitNumber">Unit Number</option>
-                    <option value="breakfast">Breakfast</option>
-                    <option value="lunch">Lunch</option>
-                    <option value="dinner">Dinner</option>
-                </select>
+        <div className='main-container'>
+            <div className='dashboard-container'>
+                <h1 className='heading'>Dashboard</h1>
+                <div className='settings-container'>
+                    <input
+                        type="date"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        className='settings'
+                    />
+                    <select
+                        className='settings'
+                        name='sorting'
+                        value={selectedSorting}
+                        onChange={handleChange}
+                    >
+                        <option value="default">Display by (default)</option> 
+                        <option value="unitNumber">Unit Number</option>
+                        <option value="breakfast">Breakfast</option>
+                        <option value="lunch">Lunch</option>
+                        <option value="dinner">Dinner</option>
+                    </select>
+                </div>
+                
+                <div className='dashboard-info-container'>
+                    <BookingList selectedDate={selectedDate} sorting={selectedSorting}/>
+                    <Summary selectedDate={selectedDate}/>
+                </div>
             </div>
-            
-            <div className='dashboard-info-container'>
-                <BookingList selectedDate={selectedDate} sorting={selectedSorting}/>
-                <Summary selectedDate={selectedDate}/>
-            </div>
+            <CookNavBar/>
         </div>
     )
 }

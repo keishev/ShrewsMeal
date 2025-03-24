@@ -200,35 +200,37 @@ const BookingPage = () => {
     };
 
     return (
-        <div className = "container">
-        {
-            loading ? (
-                <p>Loading...</p>
-            ) : auth && (isBooked !== null) ?
-                <div> 
-                    <div>
-                        <h5 className="welcome-msg">Welcome, {username}</h5>
-                        <h1 className="heading">MAKE YOUR <br /> BOOKING FOR</h1>
+        <div>
+            <div className = "booking-container">
+            {
+                loading ? (
+                    <p>Loading...</p>
+                ) : auth && (isBooked !== null) ?
+                    <div> 
+                        <div>
+                            <h5 className="welcome-msg">Welcome, {username}</h5>
+                            <h1 className="heading">MAKE YOUR <br /> BOOKING FOR</h1>
 
-                        <MealSelectionSlider
-                            dates={dates}
-                            selectedMeals={selectedMeals}
-                            isBooked={isBooked}
-                            toggleMeal={toggleMeal}
-                            handleModify={handleModify}
-                            handleBooking={handleBooking}
-                        />
+                            <MealSelectionSlider
+                                dates={dates}
+                                selectedMeals={selectedMeals}
+                                isBooked={isBooked}
+                                toggleMeal={toggleMeal}
+                                handleModify={handleModify}
+                                handleBooking={handleBooking}
+                            />
+                        </div>
                     </div>
-                    <TenantNavBar/>
-                </div>
-                
-                :
-                <div>
-                    <h3>{message}</h3>
-                    <h3>You are unauthorized. Please log in.</h3>
-                    <Link to='/'>Login</Link>
-                </div>
-            }
+                    
+                    :
+                    <div>
+                        <h3>{message}</h3>
+                        <h3>You are unauthorized. Please log in.</h3>
+                        <Link to='/'>Login</Link>
+                    </div>
+                }
+            </div>
+            <TenantNavBar/>
         </div>
     )
 };

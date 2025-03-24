@@ -3,6 +3,7 @@
     border-radius: 12px;
     height: 20px;
     border: 1px solid black;
+    background-color: #f1efef;
     margin: 0 auto;
     display: flex;
     flex-grow: 1;
@@ -25,7 +26,7 @@
 }
 
 .progress {
-    min-width: 40px;
+    min-width: 50px;
     text-align: right;
     font-weight: bold;
 }

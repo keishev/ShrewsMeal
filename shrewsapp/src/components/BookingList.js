@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { getBookingsByDate } from '../api/booking';
-import './BookingList.css'
-import CookNavBar from './CookNavBar.js'
+import './BookingList.css'  
 
 const BookingList = ({ selectedDate, sorting }) => {
     const [bookings, setBookings] = useState ([]);
@@ -88,7 +87,6 @@ const BookingList = ({ selectedDate, sorting }) => {
                     </tbody>
                 </table>
             </div>
-            <CookNavBar/>
         </div>
     );
     
