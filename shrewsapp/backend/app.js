@@ -8,6 +8,7 @@ const bookingRoutes = require ('./routes/bookingRoutes');
 const registrationRoutes = require ('./routes/registrationRoutes');
 const authRoutes = require ('./routes/authRoutes');
 const logoutRoutes = require ('./routes/logoutRoutes');
+const tenantRoutes = require ('./routes/tenantRoutes');
 
 app.use (cookieParser());
 app.use(
@@ -24,5 +25,6 @@ app.use ("/api", bookingRoutes);
 app.use ("/api", registrationRoutes);
 app.use ("/api", authRoutes);
 app.use ("/api", logoutRoutes);
+app.use ("/api", tenantRoutes);
 
 module.exports = app;

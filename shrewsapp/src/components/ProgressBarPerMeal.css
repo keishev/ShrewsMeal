@@ -1,6 +1,6 @@
 .progress-bar-container {
     width: 75%;
-    border-radius: 12px;
+    border-radius: 10px;
     height: 20px;
     border: 1px solid black;
     background-color: #f1efef;
@@ -14,7 +14,8 @@
 .progress-bar {
     background-color: black;
     height: 100%;
-    border-radius: 8px;
+    /* border-radius: 8px; */
+    border: 1px solid black;
     transition: width 0.3s ease; /* Smooth transition */
 }
 

@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import 'slick-carousel'
 
 import './Summary.css';
 
 import ProgressBarPerMeal from './ProgressBarPerMeal';
 import { getBookingsByDate } from '../api/booking';
+import { getTotalTenants } from '../api/tenants';
 
 const Summary = ({ selectedDate }) => {
     const [bookings, setBookings] = useState ([]);
     const [loading, setLoading] = useState (true);
     const [error, setError] = useState ('');
+    const [totalTenant, setTotalTenants] = useState (0);
 
     const settings = {
         infinite: false,
@@ -40,6 +38,18 @@ const Summary = ({ selectedDate }) => {
             fetchBookings ();
         };
 
+        const totalTenants = async () => {
+            try {
+                const res = await getTotalTenants ();
+                setTotalTenants (res);
+                console.log (totalTenant);
+            } catch (error) {
+                setError ('Failed to fetch total tenants.');
+            }
+        }
+
+        totalTenants ();
+
     }, [selectedDate]);
 
     if (loading) {
@@ -55,7 +65,7 @@ const Summary = ({ selectedDate }) => {
                 <div className='summary-slide'>
                     <h6 className='summary-header'>{mealType.charAt(0).toUpperCase() + mealType.slice(1)}</h6>
                     <div className='summary-content'>
-                        <ProgressBarPerMeal bookings={bookings} selectedMeal={mealType} totalTenants={10}/>
+                        <ProgressBarPerMeal bookings={bookings} selectedMeal={mealType} totalTenants={totalTenant}/>
                     </div>
                 </div>
 

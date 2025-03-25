@@ -83,3 +83,14 @@ exports.checkUsernameAvail = async (username) => {
         throw error;
     }
 }
+
+exports.getTotalTenants = async () => {
+    try {
+        const query = `SELECT COUNT (*) AS 'totalTenants' FROM useraccount WHERE role = ?`;
+        const [result] = await db.execute (query, ['TENANT']);
+        return result;
+    } catch (error) {
+        console.error ("Error getting total tenants:", error);
+        throw error;
+    }
+}
