@@ -160,4 +160,13 @@
     color: red;
     font-size: 13px;
   }
+
+  .forgot-password {
+    font-size: 0.7rem;
+    margin: 1rem;
+  }
+
+  .forgot-password:visited {
+    color: black;
+  }
   

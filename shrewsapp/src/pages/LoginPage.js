@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 import { userLogin } from '../api/login.js'
+import ForgotPassword from '../components/ForgotPassword.js'
 
 import './LoginPage.css';
 import '../style/font.css'
@@ -57,45 +58,46 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="container">
+      <div className="container">
         <form onSubmit={ handleLogin } className="form">
-        <h1 className="heading">LOG IN</h1>
+          <h1 className="heading">LOG IN</h1>
 
-        <div className="user-pass-container">
-          <label className="label">username</label>
-          <input
-            value={values.username}
-            onChange= { e => setValues ({...values, username: e.target.value}) }    // we only update the name value
-            className="input"
-            placeholder="Enter your username"
-            required
-          />
-
-          <label className="label">password</label>
-          <div class="password-container">
+          <div className="user-pass-container">
+            <label className="label">username</label>
             <input
-              type={showPassword ? "text" : "password"}
-              value={values.password}
-              onChange={ e => setValues ({...values, password: e.target.value}) }    // we only update the password value
-              className="password-input"
-              placeholder="Enter your password"
+              value={values.username}
+              onChange= { e => setValues ({...values, username: e.target.value}) }    // we only update the name value
+              className="input"
+              placeholder="Enter your username"
               required
             />
-            <span onClick={ toggleShowPassword } className='icon'>
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
+
+            <label className="label">password</label>
+            <div class="password-container">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={values.password}
+                onChange={ e => setValues ({...values, password: e.target.value}) }    // we only update the password value
+                className="password-input"
+                placeholder="Enter your password"
+                required
+              />
+              <span onClick={ toggleShowPassword } className='icon'>
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
           </div>
-        </div>
 
-        <div>
-          {error && <p className="error">{ error }</p>}
-        </div>
+          <div>
+            {error && <p className="error">{ error }</p>}
+          </div>
 
-        <button className="button">
-          LOG IN
-        </button>
-      </form>
-    </div>
+          <button className="button">
+            LOG IN
+          </button>
+          <a href='http://localhost:3000/dashboard' className='forgot-password'>Forgot Password?</a>
+        </form>
+      </div>
     );
 };
 

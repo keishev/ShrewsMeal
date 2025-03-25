@@ -32,7 +32,7 @@ exports.login = async (req, res) => {
             } else {
                 return res.status (401).json ({ Error: "Invalid credentials!" });
             }
-        });[]
+        });
     } catch (error) {
         return res.json ({ Error: "Error when trying to log in:", error });
     }

@@ -1,0 +1,16 @@
+.logout-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.logout-btn {
+    width: 25%;
+    font-family: 'Manrope';
+    font-weight: bold;
+    margin: 1rem;
+    padding: 0.25rem;
+    background-color: black;
+    color: white;
+    border-radius: 12px;
+}

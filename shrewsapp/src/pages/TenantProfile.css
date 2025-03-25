@@ -1,0 +1,9 @@
+.main-container {
+    min-height: 100vh;
+}
+
+.tenant-profile-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}

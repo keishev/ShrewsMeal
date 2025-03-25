@@ -14,7 +14,7 @@ export default function NavBar() {
         <Home size={24} />
         <span className="nav-label">Dashboard</span>
       </Link>
-      <Link to="/profile" className="nav-item">
+      <Link to="/cook-settings" className="nav-item">
         <Settings size={24} />
         <span className="nav-label">Settings</span>
       </Link>

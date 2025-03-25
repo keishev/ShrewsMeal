@@ -14,7 +14,7 @@ export default function NavBar() {
         <CalendarCheck size={24} />
         <span className="nav-label">Make Booking</span>
       </Link>
-      <Link to="/profile" className="nav-item">
+      <Link to="/tenant-profile" className="nav-item">
         <User size={24} />
         <span className="nav-label">Profile</span>
       </Link>
