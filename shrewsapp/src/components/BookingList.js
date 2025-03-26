@@ -54,7 +54,7 @@ const BookingList = ({ selectedDate, sorting }) => {
                     <thead>
                         <tr key='mealHeader'>
                             <th>Name</th>
-                            <th>Building</th>
+                            {/* <th>Building</th> */}
                             <th>Unit Number</th>
                             { sorting === "default" || sorting === "unitNumber" ? (
                                 <>
@@ -71,7 +71,7 @@ const BookingList = ({ selectedDate, sorting }) => {
                         {filteredAndSortedBookings.map((booking) => (
                         <tr key={booking.bookingID}>
                             <td>{booking.first_name}</td>
-                            <td>{booking.building}</td>
+                            {/* <td>{booking.building}</td> */}
                             <td>{booking.unitNumber}</td>
                             { sorting === "default" || sorting === "unitNumber" ? (
                                 <>

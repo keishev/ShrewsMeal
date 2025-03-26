@@ -9,7 +9,7 @@ import CookNavBar from '../components/CookNavBar'
 import './Dashboard.css'
 
 const Dashboard = () => {
-    const [selectedDate, setSelectedDate] = useState (dayjs());
+    const [selectedDate, setSelectedDate] = useState (dayjs().format("YYYY-MM-DD"));
     const [selectedSorting, setSelectedSorting] = useState ('default')
 
     const handleDateChange = (event) => {
@@ -27,6 +27,7 @@ const Dashboard = () => {
                 <div className='settings-container'>
                     <input
                         type="date"
+                        defaultValue={selectedDate}
                         value={selectedDate}
                         onChange={handleDateChange}
                         className='settings'
